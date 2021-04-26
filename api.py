@@ -5,8 +5,13 @@ import json
 url = "https://api.spacexdata.com/v3/launches"
 result = requests.get(url)
 result = result.json()
+head_line = ['flight_number', 'mission_name' , 'rocket_id' , 'rocket_name' , 'launch_date_utc' , 'video_link']
+agree = bool(input("Do you want to write header line in file (usefull to import data into excel or mysql)? Leave blank if not, enter anything if so: "))
+
 with open("flights_spacex.csv", mode="w") as spacex_file:
     csv_write = csv.writer(spacex_file)
+    if agree is True:
+        csv_write.writerow(head_line)
     for row in result:
         flight_number = row['flight_number']
         mission_name = row['mission_name']
