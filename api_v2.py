@@ -1,17 +1,30 @@
-import requests
 import csv
-import json
 import sys
+import requests
 
-class OpenFile:
-    url = "https://api.spacexdata.com/v3/launches"
-    result = requests.get(url)
+
+class SpacexHttpError(Exception):
+    pass
+
+
+def fetch_spacex(url):
     try:
+        result = requests.get(url)
         result.raise_for_status()
     except requests.exceptions.HTTPError:
-            print("No connection!")
-    result = result.json()
+        raise SpacexHttpError("Fail to fetch data!")
+    return result.json()
+
+
+data = fetch_spacex('https://api.spacexdata.com/v2/launches')
+
+
+class OpenFile():
     head_line = ['flight_number', 'mission_name', 'rocket_id', 'rocket_name', 'launch_date_utc', 'video_link']
+
+    def __init__(self, data):
+        self.result = data
+
     def __enter__(self):
         self.spacex_file = open('flights_spacex.csv', mode='w', newline='')
         print("Opening file!")
@@ -37,7 +50,8 @@ class OpenFile:
         self.spacex_file.close()
         print("Closing file!")
 
-spacex = OpenFile()
+
+spacex = OpenFile(data)
 
 with spacex:
     spacex.run()
