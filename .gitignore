@@ -1,3 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
 flights_spacex.csv
 .idea
+api - old.py
+api_v2 - old.py
+.gitignore
