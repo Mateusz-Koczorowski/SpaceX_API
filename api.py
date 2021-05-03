@@ -36,7 +36,7 @@ class OpenFile():
             rocket_id = row.get('rocket').get('rocket_id')
             rocket_name = row.get('rocket').get('rocket_name')
             launch_date_utc = row.get('launch_date_utc')
-            video_link = row.get('links').get('video_link')
+            video_link = row.get('links').get('video_link', None)
             list_to_write = [flight_number, mission_name, rocket_id, rocket_name, launch_date_utc, video_link]
             print(list_to_write)
             self.csv_write.writerow(list_to_write)
