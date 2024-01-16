@@ -16,7 +16,7 @@ class OpenFile():
             result = requests.get(url)
             result.raise_for_status()
         except requests.exceptions.HTTPError:
-            raise print("Fail to fetch data!")
+            raise print("Fail to fetch data!!")
         return result.json()
 
     def __enter__(self):
